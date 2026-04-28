@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PagerDuty GameDay Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #06AC38;
+        }
+
+        .card h3 {
+            color: #06AC38;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .card h4 {
+            color: #555;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .card p, .card ul {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .card ul {
+            margin-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+        }
+
+        .simulator {
+            grid-column: 1 / -1;
+        }
+
+        .simulator h2 {
+            border-bottom-color: #E85D75;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #06AC38;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #06AC38;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #06AC38;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #058a2d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 172, 56, 0.3);
+        }
+
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 PagerDuty GameDay Simulator</h1>
+            <p>Train your team with realistic incident response scenarios</p>
+        </header>
+
+        <div class="content-grid">
+            <!-- Tier 1: Responders -->
+            <div class="card">
+                <h2>Tier 1: Basic Users (The Responders)</h2>
+                <h3>Goal</h3>
+                <p>Verify personal readiness and basic incident hygiene.</p>
+
+                <h3>The Tasks</h3>
+
+                <h4>1. Profile Audit</h4>
+                <p>Before the "incident," every user must verify their Notification Rules. Ensure there is a "High Urgency" rule for a Phone Call within 1 minute.</p>
+
+                <h4>2. The Override</h4>
+                <p>A "surprise" personal conflict is introduced (e.g., "Your internet is down at home"). The user must find a teammate and perform a Schedule Override for the next 2 hours.</p>
+
+                <h4>3. The Response</h4>
+                <p>Once the incident triggers, the responder must Acknowledge via the mobile app and then Add a Note stating: "Investigating latency in DB cluster."</p>
+
+                <h4>4. Resolution</h4>
+                <p>Once the "fix" is found, the user must Resolve the incident to clear the dashboard.</p>
+            </div>
+
+            <!-- Tier 2: Managers -->
+            <div class="card">
+                <h2>Tier 2: Managers (The Configurators)</h2>
+                <h3>Goal</h3>
+                <p>Fix structural failures in the response pipeline.</p>
+
+                <h3>The Tasks</h3>
+
+                <h4>1. Schedule Rescue</h4>
+                <p>During the roleplay, the primary on-call person "doesn't answer." The manager must realize the Escalation Policy is misconfigured (e.g., the timeout is too long). They must edit the policy to reduce the "Escalate after" time to 5 minutes.</p>
+
+                <h4>2. Severity Correction</h4>
+                <p>The manager notices the incident triggered as Low Urgency because the monitoring tool doesn't send a severity field.</p>
+                <p><strong>Action:</strong> Go to Service Orchestration / Event Orchestration. Create a rule: If "Service Name" contains "Checkout," set Severity to "Critical" and Urgency to "High."</p>
+
+                <h4>3. Visibility</h4>
+                <p>The manager must manually Add a Responder (e.g., the Lead Architect) to the live incident to demonstrate cross-team collaboration.</p>
+            </div>
+
+            <!-- Event Simulator -->
+            <div class="card simulator">
+                <h2>🔥 Event Simulator</h2>
+                <p>Trigger a real-time PagerDuty Event using the Events API v2</p>
+
+                <div class="note">
+                    <strong>Note:</strong> Replace the "routing_key" value with a valid Integration Key from your PagerDuty service. This tool is for testing/demo purposes only.
+                </div>
+
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="routingKey">Integration Routing Key *</label>
+                        <input
+                            type="text"
+                            id="routingKey"
+                            placeholder="Enter your PagerDuty integration routing key"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payload">Event Payload (JSON)</label>
+                        <textarea id="payload" required></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-primary">🚀 Create Event</button>
+                        <button type="button" class="btn-secondary" onclick="generateNewPayload()">🔄 Generate New Payload</button>
+                    </div>
+                </form>
+
+                <div id="alert" class="alert"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Random data generators
+        const services = ['Checkout', 'Payment Gateway', 'User Authentication', 'API Gateway', 'Database', 'Cache Layer', 'Email Service', 'Search Engine'];
+        const hosts = ['Node_A', 'Node_B', 'Node_C', 'Server_1', 'Server_2', 'Web_01', 'Web_02', 'DB_Primary', 'DB_Replica'];
+        const severities = ['critical', 'error', 'warning', 'info'];
+        const statuses = ['down', 'degraded', 'timeout', 'unresponsive', 'failing'];
+        const errorMessages = [
+            'out of memory',
+            'connection timeout',
+            'database connection failed',
+            'high CPU usage detected',
+            'disk space critical',
+            'SSL certificate expired',
+            'rate limit exceeded',
+            'authentication failed',
+            'network unreachable'
+        ];
+        const metrics = [
+            { type: 'latency', value: () => Math.floor(Math.random() * 5000) + 1000, unit: 'ms' },
+            { type: 'error_rate', value: () => Math.floor(Math.random() * 50) + 10, unit: '%' },
+            { type: 'memory_usage', value: () => Math.floor(Math.random() * 30) + 70, unit: '%' },
+            { type: 'cpu_usage', value: () => Math.floor(Math.random() * 40) + 60, unit: '%' }
+        ];
+
+        function getRandomItem(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function generatePayload() {
+            const service = getRandomItem(services);
+            const host = getRandomItem(hosts);
+            const severity = getRandomItem(severities);
+            const status = getRandomItem(statuses);
+            const errorMessage = getRandomItem(errorMessages);
+            const metric = getRandomItem(metrics);
+
+            const payload = {
+                routing_key: "REPLACE_THIS_WITH_YOUR_ROUTING_KEY",
+                event_action: "trigger",
+                payload: {
+                    summary: `${service} is ${status} on host ${host}`,
+                    source: "GameDay Duty",
+                    severity: severity,
+                    custom_details: {
+                        service: service,
+                        host: host,
+                        status: status,
+                        error_message: errorMessage,
+                        [metric.type]: `${metric.value()}${metric.unit}`,
+                        timestamp: new Date().toISOString()
+                    }
+                }
+            };
+
+            return JSON.stringify(payload, null, 2);
+        }
+
+        function generateNewPayload() {
+            const textarea = document.getElementById('payload');
+            const currentPayload = JSON.parse(textarea.value);
+            const routingKey = currentPayload.routing_key;
+
+            const newPayload = generatePayload();
+            const newPayloadObj = JSON.parse(newPayload);
+            newPayloadObj.routing_key = routingKey;
+
+            textarea.value = JSON.stringify(newPayloadObj, null, 2);
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert ${type} show`;
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Initialize payload on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('payload').value = generatePayload();
+        });
+
+        // Handle form submission
+        document.getElementById('eventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const routingKey = document.getElementById('routingKey').value.trim();
+            const payloadText = document.getElementById('payload').value;
+
+            // Validate JSON
+            let payloadObj;
+            try {
+                payloadObj = JSON.parse(payloadText);
+            } catch (error) {
+                showAlert('Invalid JSON format. Please check your payload.', 'error');
+                return;
+            }
+
+            // Update routing key
+            payloadObj.routing_key = routingKey;
+
+            // Send to PagerDuty
+            try {
+                const response = await fetch('https://events.pagerduty.com/v2/enqueue', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payloadObj)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showAlert(`✅ Event created successfully! Dedup Key: ${result.dedup_key}`, 'success');
+                } else {
+                    const error = await response.json();
+                    showAlert(`❌ Error: ${error.message || 'Failed to create event'}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`❌ Network error: ${error.message}`, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Instruction files (already incorporated into the website)
+*.txt
+
+# macOS
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup files
+*~
+*.bak
