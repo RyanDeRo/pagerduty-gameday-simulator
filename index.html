@@ -275,17 +275,7 @@
 
                 <form id="eventForm">
                     <div class="form-group">
-                        <label for="routingKey">Integration Routing Key *</label>
-                        <input
-                            type="text"
-                            id="routingKey"
-                            placeholder="Enter your PagerDuty integration routing key"
-                            required
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="payload">Event Payload (JSON)</label>
+                        <label for="payload">Valid JSON Payload</label>
                         <textarea id="payload" required></textarea>
                     </div>
 
@@ -359,8 +349,14 @@
 
         function generateNewPayload() {
             const textarea = document.getElementById('payload');
-            const currentPayload = JSON.parse(textarea.value);
-            const routingKey = currentPayload.routing_key;
+            let routingKey = 'REPLACE_THIS_WITH_YOUR_ROUTING_KEY';
+
+            try {
+                const currentPayload = JSON.parse(textarea.value);
+                routingKey = currentPayload.routing_key || routingKey;
+            } catch (error) {
+                // If current JSON is invalid, use default routing key
+            }
 
             const newPayload = generatePayload();
             const newPayloadObj = JSON.parse(newPayload);
@@ -387,7 +383,6 @@
         document.getElementById('eventForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const routingKey = document.getElementById('routingKey').value.trim();
             const payloadText = document.getElementById('payload').value;
 
             // Validate JSON
@@ -399,8 +394,11 @@
                 return;
             }
 
-            // Update routing key
-            payloadObj.routing_key = routingKey;
+            // Validate routing key exists
+            if (!payloadObj.routing_key || payloadObj.routing_key === 'REPLACE_THIS_WITH_YOUR_ROUTING_KEY') {
+                showAlert('Please replace the routing_key with your actual PagerDuty integration key.', 'error');
+                return;
+            }
 
             // Send to PagerDuty
             try {
