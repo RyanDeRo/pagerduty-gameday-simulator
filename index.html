@@ -222,8 +222,8 @@
             <h1>
                 <svg width="40" height="40" viewBox="0 0 100 100" style="vertical-align: middle; margin-right: 10px;">
                     <rect width="100" height="100" rx="10" fill="#06AC38"/>
-                    <text x="50" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">P</text>
-                    <rect x="45" y="70" width="10" height="10" fill="white"/>
+                    <text x="50" y="62" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">P</text>
+                    <circle cx="50" cy="78" r="4" fill="white"/>
                 </svg>
                 PagerDuty GameDay Simulator
             </h1>
@@ -267,7 +267,7 @@
                 <p>During the roleplay, the primary on-call person "doesn't answer." The manager must realize the Escalation Policy is misconfigured (e.g., the timeout is too long). They must edit the policy to reduce the "Escalate after" time to 5 minutes.</p>
 
                 <h4>2. Severity Correction</h4>
-                <p>The manager notices the incident triggered as Low Urgency because the monitoring tool doesn't send a severity field to match Service/Urgency Settings. Go to Service Orchestration / Event Orchestration. Example: create a rule: If "event.group" matches "xyz" set Severity to "Critical".</p>
+                <p>The manager notices the incident triggered as Low Urgency because the monitoring tool doesn't send a severity field to match Service/Urgency Settings. They must to Service Orchestration / Event Orchestration and create an orchestration to correct this. Example: create a rule: If "event.group" matches "xyz" set Severity to "Critical".</p>
 
                 <h4>3. Incident Workflow</h4>
                 <p>A manager decides it would be beneficial to create a predefined response pattern for some incidents. The manager must go to incident workflows and create a workflow. Example: adds another set of responders, posts a status update or post to status page, and creates a Slack or Microsoft Teams channel for the incident.</p>
