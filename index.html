@@ -219,37 +219,47 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎮 PagerDuty GameDay Simulator</h1>
+            <h1>
+                <svg width="40" height="40" viewBox="0 0 100 100" style="vertical-align: middle; margin-right: 10px;">
+                    <rect width="100" height="100" rx="10" fill="#06AC38"/>
+                    <text x="50" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">P</text>
+                    <rect x="45" y="70" width="10" height="10" fill="white"/>
+                </svg>
+                PagerDuty GameDay Simulator
+            </h1>
             <p>Train your team with realistic incident response scenarios</p>
         </header>
 
         <div class="content-grid">
             <!-- Tier 1: Responders -->
             <div class="card">
-                <h2>Tier 1: Basic Users (The Responders)</h2>
+                <h2>Tier 1: Responders</h2>
                 <h3>Goal</h3>
                 <p>Verify personal readiness and basic incident hygiene.</p>
 
                 <h3>The Tasks</h3>
 
                 <h4>1. Profile Audit</h4>
-                <p>Before the "incident," every user must verify their Notification Rules. Ensure there is a "High Urgency" rule for a Phone Call within 1 minute.</p>
+                <p>Before the "incident," every user must verify their Notification Rules. Ensure there is a "High Urgency" rule for a notification within 1 minute.</p>
 
                 <h4>2. The Override</h4>
                 <p>A "surprise" personal conflict is introduced (e.g., "Your internet is down at home"). The user must find a teammate and perform a Schedule Override for the next 2 hours.</p>
 
                 <h4>3. The Response</h4>
-                <p>Once the incident triggers, the responder must Acknowledge via the mobile app and then Add a Note stating: "Investigating latency in DB cluster."</p>
+                <p>Once the incident triggers, the responder must Acknowledge and then Add a Note.</p>
 
-                <h4>4. Resolution</h4>
-                <p>Once the "fix" is found, the user must Resolve the incident to clear the dashboard.</p>
+                <h4>4. Add Responder</h4>
+                <p>The responder must manually Add a Responder to the live incident to demonstrate cross-team collaboration.</p>
+
+                <h4>5. Resolution</h4>
+                <p>Once the "fix" is found, the user must Resolve the incident.</p>
             </div>
 
             <!-- Tier 2: Managers -->
             <div class="card">
-                <h2>Tier 2: Managers (The Configurators)</h2>
+                <h2>Tier 2: Managers</h2>
                 <h3>Goal</h3>
-                <p>Fix structural failures in the response pipeline.</p>
+                <p>Fix configuration in the response workflows.</p>
 
                 <h3>The Tasks</h3>
 
@@ -257,11 +267,10 @@
                 <p>During the roleplay, the primary on-call person "doesn't answer." The manager must realize the Escalation Policy is misconfigured (e.g., the timeout is too long). They must edit the policy to reduce the "Escalate after" time to 5 minutes.</p>
 
                 <h4>2. Severity Correction</h4>
-                <p>The manager notices the incident triggered as Low Urgency because the monitoring tool doesn't send a severity field.</p>
-                <p><strong>Action:</strong> Go to Service Orchestration / Event Orchestration. Create a rule: If "Service Name" contains "Checkout," set Severity to "Critical" and Urgency to "High."</p>
+                <p>The manager notices the incident triggered as Low Urgency because the monitoring tool doesn't send a severity field to match Service/Urgency Settings. Go to Service Orchestration / Event Orchestration. Example: create a rule: If "event.group" matches "xyz" set Severity to "Critical".</p>
 
-                <h4>3. Visibility</h4>
-                <p>The manager must manually Add a Responder (e.g., the Lead Architect) to the live incident to demonstrate cross-team collaboration.</p>
+                <h4>3. Incident Workflow</h4>
+                <p>A manager decides it would be beneficial to create a predefined response pattern for some incidents. The manager must go to incident workflows and create a workflow. Example: adds another set of responders, posts a status update or post to status page, and creates a Slack or Microsoft Teams channel for the incident.</p>
             </div>
 
             <!-- Event Simulator -->
